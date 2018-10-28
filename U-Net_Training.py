@@ -13,9 +13,8 @@ from keras.callbacks import ModelCheckpoint, LearningRateScheduler
 from keras import backend as K
 import os
 import configparser as ConfigParser
-import warnings  # 不显示乱七八糟的warning
+import warnings  
 from base_functions import get_train_data
-# from utils.BilinearUpSampling import *
 import h5py
 from keras.models import model_from_json
 from keras.optimizers import SGD
