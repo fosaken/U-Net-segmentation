@@ -1,0 +1,26 @@
+
+[unet_parameters]
+#--------data paths-------#
+path_local = ./U-Net/
+train_images_dir = /train_images/
+train_labels_dir = /train_labels/
+test_images_dir = /test_images/
+test_labels_dir = /test_labels/
+unet_model_dir = /model/
+
+
+#-----data parameters-----#
+img_h = 256
+img_w = 256
+C = 2
+N_channels = 1
+gt_gray_value_list = [0, 85, 170, 255]
+#image height, image width, num of classes respectively
+
+
+#----training settings----#
+N_epochs = 40
+batch_size = 5
+validation_rate = 0.1
+
+
