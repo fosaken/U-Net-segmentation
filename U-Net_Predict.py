@@ -46,6 +46,7 @@ print('Predicting...')
 predictions = model.predict(test_x)
 
 pred_images = pred_to_imgs(predictions, img_h, img_w, C=C)
+pred_images /= np.max(pred_images)
 
 print('-' * 30 + '\n' + 'Saving predicted images...' + '\n' + '-' * 30)
 for i in range(pred_images.shape[0]):

@@ -8,11 +8,13 @@ def get_train_data(train_images_dir, train_labels_dir, img_h, img_w, N_channels=
     print('Loading train images...')
     print('-'*30)
     assert(C == 2 or C > 2)
-    files = os.listdir(train_images_dir)#get file names
-    total_images = np.zeros([len(files), img_h, img_w, N_channels])#for storing training imgs
-    for idx in range(len(files)):#
-        img = mpimg.imread(os.path.join(train_images_dir,files[idx]))
-        total_images[idx, :, :, 0] = img
+    files = os.listdir(train_images_dir)  # get file names
+    total_images = np.zeros([len(files), img_h, img_w, N_channels])  # for storing training imgs
+    for idx in range(len(files)):  #
+        img = mpimg.imread(os.path.join(train_images_dir, files[idx]))
+        if len(img.shape) == 2:
+            img = img[:, :, np.newaxis]
+        total_images[idx, :, :, :img.shape[-1]] = img
     total_images = total_images/np.max(total_images)
     mean = np.mean(total_images, axis=0)
     np.save('./mean_img.npy', mean)
@@ -71,6 +73,16 @@ def pred_to_imgs(predictions, img_h, img_w, C=2):
     assert(len(predictions.shape) == 3)
     assert(predictions.shape[1] == img_h*img_w)
     N_images = predictions.shape[0]
+    predictions = np.reshape(predictions, [N_images, img_h, img_w, C])
+    pred_images = np.argmax(predictions, axis=3)
+
+    return pred_images
+
+
+def pred_to_imgs_bak(predictions, img_h, img_w, C=2):
+    assert(len(predictions.shape) == 3)
+    assert(predictions.shape[1] == img_h*img_w)
+    N_images = predictions.shape[0]
     predictions = np.reshape(predictions,[N_images, img_h, img_w, C])
     pred_images = np.zeros([N_images, img_h, img_w])
     for img in range(N_images):
@@ -82,8 +94,6 @@ def pred_to_imgs(predictions, img_h, img_w, C=2):
     assert(np.min(pred_images) == 0 and np.max(pred_images) == 1)
 
     return pred_images
-
-
 
 
 
