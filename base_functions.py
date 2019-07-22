@@ -52,7 +52,9 @@ def get_test_data(test_images_dir, test_labels_dir, img_h, img_w, N_channels=1, 
     total_images = np.zeros([len(files), img_h, img_w, N_channels])
     for idx in range(len(files)):
         img = mpimg.imread(os.path.join(test_images_dir,files[idx]))
-        total_images[idx, :, :, 0] = img
+        if len(img.shape) == 2:
+            img = img[:, :, np.newaxis]
+        total_images[idx, :, :, :img.shape[-1]] = img
     total_images = total_images/np.max(total_images)
     mean = np.load('./mean_img.npy')
     total_images -= mean
